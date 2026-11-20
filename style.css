@@ -1,17 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 :root {
     --primary-color: #4f46e5;
     --primary-hover: #4338ca;
     --primary-light: #eef2ff;
+    --primary-glow: rgba(79, 70, 229, 0.25);
     --secondary-color: #64748b;
     --bg-body: #f8fafc;
     --bg-surface: #ffffff;
     --text-main: #0f172a;
     --text-muted: #64748b;
     --border-color: #e2e8f0;
-    --sidebar-width: 260px;
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --sidebar-width: 270px;
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --card-shadow-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
@@ -21,64 +28,157 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* ============================================================
-   AUTH PAGES (Login & Register)
+   ADVANCED AUTH PAGES (Login & Register)
    ============================================================ */
 .auth-wrapper {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 1rem;
-    background: radial-gradient(circle at top left, #e0e7ff 0%, #f8fafc 50%, #ede9fe 100%);
+    padding: 2.5rem 1rem;
+    background: radial-gradient(circle at 10% 20%, #e0e7ff 0%, #f8fafc 40%, #ede9fe 90%);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .auth-card {
-    background: var(--bg-surface);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.12);
     width: 100%;
-    max-width: 460px;
+    max-width: 480px;
     padding: 2.5rem;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.auth-top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.btn-back-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    background: #f1f5f9;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.btn-back-nav:hover {
+    color: var(--primary-color);
+    background: var(--primary-light);
+    border-color: #c7d2fe;
+    transform: translateX(-2px);
 }
 
 .auth-brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
     margin-bottom: 1.5rem;
 }
 
 .auth-brand-icon {
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     color: #ffffff;
-    border-radius: 12px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.35rem;
+    font-size: 1.45rem;
+    box-shadow: 0 8px 16px -4px rgba(79, 70, 229, 0.35);
 }
 
 .auth-brand-text h4 {
     margin: 0;
-    font-weight: 700;
-    font-size: 1.25rem;
+    font-weight: 800;
+    font-size: 1.3rem;
     letter-spacing: -0.02em;
+    color: var(--text-main);
 }
 
 .auth-brand-text p {
     margin: 0;
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
+/* Feature badges on auth */
+.auth-badges-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.auth-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Password strength bar */
+.password-strength-bar {
+    height: 4px;
+    width: 100%;
+    background-color: #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.4rem;
+    display: flex;
+}
+
+.strength-step {
+    flex: 1;
+    height: 100%;
+    margin-right: 2px;
+    background-color: #e2e8f0;
+    transition: background-color 0.3s;
+}
+
+.strength-step.active-weak { background-color: #ef4444; }
+.strength-step.active-medium { background-color: #f59e0b; }
+.strength-step.active-strong { background-color: #10b981; }
+
 /* ============================================================
-   DASHBOARD LAYOUT (Sidebar + Main Content)
+   ADVANCED SAAS DASHBOARD (Sidebar + Main)
    ============================================================ */
 .app-container {
     display: flex;
@@ -87,7 +187,7 @@ body {
 
 .sidebar {
     width: var(--sidebar-width);
-    background: var(--bg-surface);
+    background: #ffffff;
     border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
@@ -96,53 +196,63 @@ body {
     bottom: 0;
     left: 0;
     z-index: 1000;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
 }
 
 .sidebar-header {
-    padding: 1.5rem 1.25rem;
+    padding: 1.4rem 1.25rem;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
 }
 
 .sidebar-nav {
-    padding: 1rem 0.75rem;
+    padding: 1.25rem 0.85rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.35rem;
+    overflow-y: auto;
 }
 
 .nav-link-custom {
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.7rem 1rem;
+    padding: 0.65rem 0.95rem;
     color: var(--secondary-color);
     text-decoration: none;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 0.925rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
     transition: all 0.2s ease;
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .nav-link-custom:hover {
     background-color: var(--primary-light);
     color: var(--primary-color);
+    transform: translateX(3px);
 }
 
 .nav-link-custom.active {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
     color: #ffffff;
+    box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+.nav-link-custom.active .badge {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
 }
 
 .sidebar-footer {
     padding: 1.25rem;
     border-top: 1px solid var(--border-color);
-    background: #fafafa;
+    background: #f8fafc;
 }
 
 .user-profile-badge {
@@ -152,131 +262,228 @@ body {
 }
 
 .user-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 0.95rem;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(79, 70, 229, 0.25);
 }
 
 .main-content {
     margin-left: var(--sidebar-width);
     flex-grow: 1;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 2.25rem;
     background-color: var(--bg-body);
 }
 
 /* ============================================================
-   TOPBAR & CONTROLS
+   TOP BAR & BACK NAVIGATION
    ============================================================ */
 .top-action-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
 }
 
 .page-title h2 {
-    font-weight: 700;
-    font-size: 1.65rem;
+    font-weight: 800;
+    font-size: 1.75rem;
     margin: 0;
     letter-spacing: -0.02em;
+    color: var(--text-main);
 }
 
 .page-title p {
-    margin: 0.25rem 0 0;
+    margin: 0.35rem 0 0;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.925rem;
 }
 
-/* ============================================================
-   STAT METRIC CARDS
-   ============================================================ */
-.stat-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
-    padding: 1.25rem 1.5rem;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Dynamic Back-to-All-Contacts Bar */
+.filter-active-banner {
+    background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+    border: 1px solid #c7d2fe;
+    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-back-dashboard {
+    background: #ffffff;
+    color: var(--primary-color);
+    border: 1px solid #c7d2fe;
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-back-dashboard:hover {
+    background: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+    transform: translateX(-3px);
+}
+
+/* ============================================================
+   ADVANCED STAT METRIC CARDS
+   ============================================================ */
+.stat-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.35rem 1.4rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: transparent;
+    transition: background 0.25s;
 }
 
 .stat-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: var(--card-shadow-hover);
+}
+
+.stat-card:hover::after {
+    background: linear-gradient(90deg, var(--primary-color), #a855f7);
 }
 
 .stat-info h6 {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     color: var(--text-muted);
 }
 
 .stat-info h3 {
     margin: 0.35rem 0 0;
-    font-weight: 700;
-    font-size: 1.75rem;
+    font-weight: 800;
+    font-size: 1.85rem;
     color: var(--text-main);
+    letter-spacing: -0.02em;
+}
+
+.stat-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #10b981;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-top: 0.2rem;
 }
 
 .stat-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
-.icon-blue { background: #eff6ff; color: #2563eb; }
-.icon-purple { background: #f5f3ff; color: #7c3aed; }
-.icon-green { background: #f0fdf4; color: #16a34a; }
-.icon-amber { background: #fffbeb; color: #d97706; }
-.icon-pink { background: #fdf2f8; color: #db2777; }
-.icon-cyan { background: #ecfeff; color: #0891b2; }
+.icon-blue { background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%); color: #2563eb; }
+.icon-amber { background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); color: #d97706; }
+.icon-purple { background: linear-gradient(135deg, #f3e8ff 0%, #faf5ff 100%); color: #7c3aed; }
+.icon-green { background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%); color: #16a34a; }
+.icon-cyan { background: linear-gradient(135deg, #cffafe 0%, #ecfeff 100%); color: #0891b2; }
+.icon-pink { background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%); color: #db2777; }
+
+/* ============================================================
+   ADVANCED CONTACT AVATARS
+   ============================================================ */
+.contact-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.avatar-color-0 { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+.avatar-color-1 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.avatar-color-2 { background: linear-gradient(135deg, #ec4899, #db2777); }
+.avatar-color-3 { background: linear-gradient(135deg, #10b981, #059669); }
+.avatar-color-4 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.avatar-color-5 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
 
 /* ============================================================
    CATEGORY BADGES
    ============================================================ */
 .badge-category {
-    padding: 0.35rem 0.75rem;
+    padding: 0.35rem 0.85rem;
     border-radius: 20px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.02em;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    border: 1px solid transparent;
 }
 
-.badge-family { background-color: #f5f3ff; color: #7c3aed; }
-.badge-friends { background-color: #f0fdf4; color: #16a34a; }
-.badge-college { background-color: #eff6ff; color: #2563eb; }
-.badge-work { background-color: #fffbeb; color: #d97706; }
-.badge-other { background-color: #f1f5f9; color: #475569; }
+.badge-family { background-color: #f5f3ff; color: #7c3aed; border-color: #ddd6fe; }
+.badge-friends { background-color: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+.badge-college { background-color: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+.badge-work { background-color: #fffbeb; color: #d97706; border-color: #fde68a; }
+.badge-other { background-color: #f1f5f9; color: #475569; border-color: #e2e8f0; }
 
 /* ============================================================
    CONTACT TABLE & CARDS
    ============================================================ */
 .content-card {
-    background: var(--bg-surface);
+    background: #ffffff;
     border: 1px solid var(--border-color);
-    border-radius: 14px;
+    border-radius: 16px;
     box-shadow: var(--card-shadow);
     overflow: hidden;
 }
@@ -284,12 +491,12 @@ body {
 .table-custom th {
     background-color: #f8fafc;
     color: var(--text-muted);
-    font-weight: 600;
-    font-size: 0.78rem;
+    font-weight: 700;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem 1.25rem;
+    padding: 1.1rem 1.25rem;
 }
 
 .table-custom td {
@@ -297,6 +504,10 @@ body {
     vertical-align: middle;
     border-bottom: 1px solid var(--border-color);
     font-size: 0.9rem;
+}
+
+.table-custom tbody tr {
+    transition: background-color 0.15s ease;
 }
 
 .table-custom tbody tr:hover {
@@ -307,24 +518,106 @@ body {
     background: transparent;
     border: none;
     color: #cbd5e1;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 0;
+    line-height: 1;
 }
 
 .btn-favorite.active {
     color: #f59e0b;
+    filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
 }
 
 .btn-favorite:hover {
-    transform: scale(1.15);
+    transform: scale(1.25);
 }
 
 .action-buttons {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+}
+
+.action-btn-sm {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.action-btn-sm:hover {
+    transform: translateY(-2px);
+}
+
+.copy-badge-btn {
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.copy-badge-btn:hover {
+    opacity: 1;
+    color: var(--primary-color) !important;
+}
+
+/* ============================================================
+   CONTACT DETAILS MODAL (Advanced View Card)
+   ============================================================ */
+.contact-hero-banner {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    padding: 2.25rem 1.5rem 1.75rem;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+    border-radius: 16px 16px 0 0;
+}
+
+.hero-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--primary-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.85rem;
+    font-weight: 800;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.85rem;
+}
+
+.detail-item-card {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detail-item-card .item-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.15rem;
+}
+
+.detail-item-card .item-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    word-break: break-all;
 }
 
 /* ============================================================
@@ -346,6 +639,7 @@ body {
     }
     .sidebar.open {
         transform: translateX(0);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
     }
     .main-content {
         margin-left: 0;

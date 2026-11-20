@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Digital Address Book Management System</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Custom CSS (Flat Path) -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css?v=2.2">
 </head>
 <body>
     <!-- Toast Notification Container -->
@@ -19,12 +23,12 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="auth-brand-icon" style="width: 38px; height: 38px; font-size: 1.1rem;">
+                <div class="auth-brand-icon" style="width: 42px; height: 42px; font-size: 1.25rem;">
                     <i class="bi bi-person-lines-fill"></i>
                 </div>
                 <div>
                     <h5 class="fw-bold mb-0" style="letter-spacing: -0.02em;">AddressBook</h5>
-                    <small class="text-muted" style="font-size: 0.72rem;">SR University • WTMP</small>
+                    <small class="text-muted" style="font-size: 0.72rem;">SR University • WTMP (B36_Team 4)</small>
                 </div>
             </div>
 
@@ -79,7 +83,7 @@
                             <div class="text-muted text-truncate" style="font-size: 0.72rem;" id="currentUserEmail">user@example.com</div>
                         </div>
                     </div>
-                    <button class="btn btn-outline-danger btn-sm p-1 px-2" id="logoutBtn" title="Sign Out">
+                    <button class="btn btn-outline-danger btn-sm p-1 px-2 rounded-3" id="logoutBtn" title="Sign Out">
                         <i class="bi bi-box-arrow-right"></i>
                     </button>
                 </div>
@@ -97,18 +101,51 @@
                         </button>
                         <h2 id="currentSectionTitle">All Contacts</h2>
                     </div>
-                    <p id="currentSectionDesc">Manage, search and organize your personal and professional contacts.</p>
+                    <p id="currentSectionDesc">Manage, search, categorize, and organize your personal and professional network.</p>
                 </div>
 
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <button class="btn btn-outline-secondary d-flex align-items-center gap-2" id="exportCsvBtn">
-                        <i class="bi bi-download"></i>
+                    <button class="btn btn-outline-secondary d-flex align-items-center gap-2 rounded-3 shadow-sm px-3" id="exportCsvBtn">
+                        <i class="bi bi-cloud-arrow-down"></i>
                         <span>Export CSV</span>
                     </button>
-                    <button class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#contactModal" id="addNewContactBtn">
+                    <button class="btn btn-primary d-flex align-items-center gap-2 rounded-3 shadow-sm px-3 fw-semibold" data-bs-toggle="modal" data-bs-target="#contactModal" id="addNewContactBtn">
                         <i class="bi bi-plus-lg"></i>
                         <span>Add Contact</span>
                     </button>
+                </div>
+            </div>
+
+            <!-- Interactive Back Navigation Banner (Appears when Filtered/Searching) -->
+            <div id="filterBanner" class="filter-active-banner d-none">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary text-white rounded-pill px-3 py-1" id="filterBadgeText">Filter Active</span>
+                    <span class="text-muted small fw-medium" id="filterDescriptionText">Viewing filtered contacts</span>
+                </div>
+                <button class="btn-back-dashboard" id="btnBackToAll">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to All Contacts</span>
+                </button>
+            </div>
+
+            <!-- Smart Duplicate Contact Advisor Banner (Innovation Feature) -->
+            <div class="alert alert-warning border-warning-subtle shadow-sm rounded-3 p-3 mb-4 d-none" id="duplicateAlertBanner" role="alert">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-shield-exclamation text-warning fs-3"></i>
+                        <div>
+                            <strong class="d-block text-dark">Smart Duplicate Advisor Detected</strong>
+                            <span class="small text-muted" id="duplicateAlertText">Identical phone numbers or email addresses found among your records.</span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-sm btn-warning text-dark fw-semibold" id="btnFilterDuplicates">
+                            <i class="bi bi-funnel me-1"></i> Review Duplicates
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDismissDuplicates" title="Dismiss Advisor">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -119,6 +156,7 @@
                         <div class="stat-info">
                             <h6>Total</h6>
                             <h3 id="statTotal">0</h3>
+                            <span class="stat-tag"><i class="bi bi-arrow-up-right"></i> All Records</span>
                         </div>
                         <div class="stat-icon icon-blue">
                             <i class="bi bi-people"></i>
@@ -130,6 +168,7 @@
                         <div class="stat-info">
                             <h6>Favorites</h6>
                             <h3 id="statFav">0</h3>
+                            <span class="stat-tag text-warning"><i class="bi bi-star-fill"></i> Pinned</span>
                         </div>
                         <div class="stat-icon icon-amber">
                             <i class="bi bi-star"></i>
@@ -141,6 +180,7 @@
                         <div class="stat-info">
                             <h6>Family</h6>
                             <h3 id="statFamily">0</h3>
+                            <span class="stat-tag text-purple" style="color: #7c3aed;"><i class="bi bi-house"></i> Home</span>
                         </div>
                         <div class="stat-icon icon-purple">
                             <i class="bi bi-house-door"></i>
@@ -152,6 +192,7 @@
                         <div class="stat-info">
                             <h6>Friends</h6>
                             <h3 id="statFriends">0</h3>
+                            <span class="stat-tag text-success"><i class="bi bi-check-circle"></i> Social</span>
                         </div>
                         <div class="stat-icon icon-green">
                             <i class="bi bi-emoji-smile"></i>
@@ -163,6 +204,7 @@
                         <div class="stat-info">
                             <h6>College</h6>
                             <h3 id="statCollege">0</h3>
+                            <span class="stat-tag text-primary"><i class="bi bi-mortarboard"></i> SR University</span>
                         </div>
                         <div class="stat-icon icon-cyan">
                             <i class="bi bi-mortarboard"></i>
@@ -174,6 +216,7 @@
                         <div class="stat-info">
                             <h6>Work</h6>
                             <h3 id="statWork">0</h3>
+                            <span class="stat-tag" style="color: #db2777;"><i class="bi bi-briefcase"></i> Professional</span>
                         </div>
                         <div class="stat-icon icon-pink">
                             <i class="bi bi-briefcase"></i>
@@ -182,21 +225,21 @@
                 </div>
             </div>
 
-            <!-- Search and Filter Bar -->
+            <!-- Advanced Search, Filter & Sort Bar -->
             <div class="content-card p-3 mb-4">
                 <div class="row g-2 align-items-center">
-                    <div class="col-md-7 col-lg-8">
+                    <div class="col-md-5 col-lg-5">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0 text-muted">
                                 <i class="bi bi-search"></i>
                             </span>
-                            <input type="text" class="form-control border-start-0 ps-0" id="searchInput" placeholder="Search by name, phone number, or email...">
-                            <button class="btn btn-outline-secondary border-start-0 bg-transparent text-muted d-none" type="button" id="clearSearchBtn">
+                            <input type="text" class="form-control border-start-0 ps-0" id="searchInput" placeholder="Search by name, phone, or email...">
+                            <button class="btn btn-outline-secondary border-start-0 bg-transparent text-muted d-none" type="button" id="clearSearchBtn" title="Clear Search">
                                 <i class="bi bi-x-circle"></i>
                             </button>
                         </div>
                     </div>
-                    <div class="col-md-5 col-lg-4">
+                    <div class="col-md-4 col-lg-4">
                         <select class="form-select" id="categoryFilterSelect">
                             <option value="">All Categories</option>
                             <option value="Family">Family</option>
@@ -206,6 +249,20 @@
                             <option value="Other">Other</option>
                         </select>
                     </div>
+                    <div class="col-md-3 col-lg-3">
+                        <select class="form-select" id="sortSelect">
+                            <option value="name_asc">Sort: Name (A-Z)</option>
+                            <option value="name_desc">Sort: Name (Z-A)</option>
+                            <option value="newest">Sort: Newest First</option>
+                            <option value="oldest">Sort: Oldest First</option>
+                            <option value="favorites_first">Sort: Favorites First</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Live search counter badge -->
+                <div class="d-flex align-items-center justify-content-between mt-2 pt-2 border-top">
+                    <span class="small text-muted" id="contactCountBadge">Showing all contacts</span>
+                    <span class="small text-primary fw-medium"><i class="bi bi-qr-code me-1"></i>Click any contact row or the QR icon to view details & phone sync QR code</span>
                 </div>
             </div>
 
@@ -216,12 +273,12 @@
                         <thead>
                             <tr>
                                 <th style="width: 40px;"></th>
-                                <th>Name</th>
-                                <th>Phone</th>
+                                <th>Contact</th>
+                                <th>Phone Number</th>
                                 <th>Email</th>
                                 <th>Category</th>
                                 <th>Address / Notes</th>
-                                <th class="text-end" style="width: 120px;">Actions</th>
+                                <th class="text-end" style="width: 175px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="contactsTableBody">
@@ -237,24 +294,150 @@
 
                 <!-- Empty State -->
                 <div class="text-center py-5 px-3 d-none" id="emptyState">
-                    <div class="mb-3 text-muted" style="font-size: 3rem;">
+                    <div class="mb-3 text-muted" style="font-size: 3.5rem;">
                         <i class="bi bi-journal-x"></i>
                     </div>
-                    <h5 class="fw-bold mb-1">No contacts found</h5>
-                    <p class="text-muted small mb-3">Add a new contact or try clearing your search and filters.</p>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#contactModal">
-                        <i class="bi bi-plus-lg me-1"></i> Add New Contact
-                    </button>
+                    <h5 class="fw-bold mb-1">No contacts match your query</h5>
+                    <p class="text-muted small mb-3">Try adjusting your search keywords, clear category filters, or add a new contact.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" id="emptyStateBackBtn">
+                            <i class="bi bi-arrow-left me-1"></i> Back to All Contacts
+                        </button>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#contactModal">
+                            <i class="bi bi-plus-lg me-1"></i> Add New Contact
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- ADVANCED CONTACT DETAILS MODAL (Quick View Card) -->
+    <div class="modal fade" id="contactDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <!-- Hero Banner -->
+                <div class="contact-hero-banner">
+                    <div class="hero-avatar" id="detailsAvatar">U</div>
+                    <h4 class="fw-bold mb-1" id="detailsName">Contact Name</h4>
+                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
+                        <span class="badge-category" id="detailsCategoryBadge">Category</span>
+                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2 py-1 small d-none" id="detailsFavBadge">
+                            <i class="bi bi-star-fill me-1"></i> Favorite
+                        </span>
+                    </div>
+                </div>
+
+                <div class="modal-body p-4">
+                    <!-- Phone Item -->
+                    <div class="detail-item-card">
+                        <div>
+                            <div class="item-label"><i class="bi bi-telephone text-primary me-1"></i> Phone Number</div>
+                            <div class="item-value" id="detailsPhone">-</div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-primary rounded-3" id="detailsCallBtn" title="Call directly">
+                                <i class="bi bi-telephone-outbound"></i>
+                            </a>
+                            <a href="#" target="_blank" class="btn btn-sm btn-outline-success rounded-3" id="detailsWhatsAppBtn" title="Direct WhatsApp Chat">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                            <button class="btn btn-sm btn-outline-secondary rounded-3" id="detailsCopyPhoneBtn" title="Copy Phone">
+                                <i class="bi bi-clipboard"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Email Item -->
+                    <div class="detail-item-card">
+                        <div>
+                            <div class="item-label"><i class="bi bi-envelope text-info me-1"></i> Email Address</div>
+                            <div class="item-value" id="detailsEmail">-</div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-info rounded-3" id="detailsMailBtn" title="Send Email">
+                                <i class="bi bi-envelope-at"></i>
+                            </a>
+                            <button class="btn btn-sm btn-outline-secondary rounded-3" id="detailsCopyEmailBtn" title="Copy Email">
+                                <i class="bi bi-clipboard"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Address Item -->
+                    <div class="detail-item-card">
+                        <div>
+                            <div class="item-label"><i class="bi bi-geo-alt text-danger me-1"></i> Address</div>
+                            <div class="item-value" id="detailsAddress">-</div>
+                        </div>
+                        <a href="#" target="_blank" class="btn btn-sm btn-outline-danger rounded-3 d-none" id="detailsMapBtn" title="Open in Google Maps">
+                            <i class="bi bi-map"></i>
+                        </a>
+                    </div>
+
+                    <!-- Mobile vCard 3.0 QR Sync Card (Innovation Feature) -->
+                    <div class="p-3 mb-3 rounded-3 border bg-light">
+                        <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                            <span class="small fw-bold text-uppercase text-secondary" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+                                <i class="bi bi-qr-code text-primary me-1"></i> Mobile vCard 3.0 QR Sync
+                            </span>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill" style="font-size: 0.7rem;">
+                                Instant Scan
+                            </span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 flex-wrap flex-sm-nowrap">
+                            <div class="bg-white p-2 rounded-3 border shadow-sm text-center flex-shrink-0" style="min-width: 120px;">
+                                <img id="detailsQrImg" src="" alt="vCard QR Code" width="110" height="110" class="img-fluid rounded" style="display: block; margin: 0 auto;">
+                                <span class="d-block text-muted mt-1" style="font-size: 0.65rem;">Scan with Phone</span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="small text-muted mb-2" style="font-size: 0.8rem; line-height: 1.35;">
+                                    Point your iPhone or Android camera at the QR code to instantly import this record into your native phone contacts book.
+                                </p>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm py-1 px-2 fw-semibold" id="detailsDownloadVcfBtn" style="font-size: 0.78rem;">
+                                        <i class="bi bi-file-earmark-person me-1"></i> Download .VCF Card
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Item -->
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <div class="item-label"><i class="bi bi-sticky text-warning me-1"></i> Notes</div>
+                        <p class="small text-muted mb-0 fst-italic" id="detailsNotes">No notes added.</p>
+                    </div>
+
+                    <!-- Timestamps -->
+                    <div class="d-flex justify-content-between text-muted" style="font-size: 0.72rem;">
+                        <span id="detailsCreated">Created: -</span>
+                        <span id="detailsUpdated">Updated: -</span>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top bg-light d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary btn-sm px-3 fw-semibold" data-bs-dismiss="modal">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-danger btn-sm px-3 fw-semibold" id="detailsDeleteBtn">
+                            <i class="bi bi-trash me-1"></i> Delete
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm px-3 fw-semibold" id="detailsEditBtn">
+                            <i class="bi bi-pencil me-1"></i> Edit Contact
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ADD / EDIT CONTACT MODAL -->
     <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header border-bottom">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-bottom px-4 pt-4 pb-3">
                     <h5 class="modal-title fw-bold" id="contactModalLabel">Add New Contact</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -298,19 +481,21 @@
 
                         <div class="mb-3">
                             <label for="contactNotes" class="form-label small fw-semibold">Notes</label>
-                            <textarea class="form-control" id="contactNotes" rows="2" placeholder="Optional notes or relationship info..."></textarea>
+                            <textarea class="form-control" id="contactNotes" rows="2" placeholder="Optional relationship info, department, notes..."></textarea>
                         </div>
 
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="contactIsFavorite">
+                        <div class="form-check p-2 bg-light rounded-3 border">
+                            <input class="form-check-input ms-1 me-2" type="checkbox" id="contactIsFavorite">
                             <label class="form-check-label small fw-semibold" for="contactIsFavorite">
-                                <i class="bi bi-star-fill text-warning me-1"></i> Add to Favorites
+                                <i class="bi bi-star-fill text-warning me-1"></i> Add to Favorite Contacts
                             </label>
                         </div>
                     </div>
-                    <div class="modal-footer border-top bg-light">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold" id="saveContactBtn">
+                    <div class="modal-footer border-top bg-light px-4 py-3 d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary btn-sm px-3 fw-semibold" data-bs-dismiss="modal">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-semibold" id="saveContactBtn">
                             <span class="spinner-border spinner-border-sm d-none me-1" id="saveContactSpinner"></span>
                             Save Contact
                         </button>
@@ -323,16 +508,18 @@
     <!-- DELETE CONFIRMATION MODAL -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content border-0 shadow">
+            <div class="modal-content border-0 shadow-lg rounded-4">
                 <div class="modal-body p-4 text-center">
-                    <div class="text-danger mb-3" style="font-size: 2.5rem;">
+                    <div class="text-danger mb-3" style="font-size: 2.75rem;">
                         <i class="bi bi-exclamation-triangle"></i>
                     </div>
                     <h5 class="fw-bold mb-2">Delete Contact?</h5>
-                    <p class="text-muted small mb-4">Are you sure you want to delete <strong id="deleteContactName">this contact</strong>? This action cannot be undone.</p>
+                    <p class="text-muted small mb-4">Are you sure you want to delete <strong id="deleteContactName">this contact</strong>? This action permanently removes it from MySQL.</p>
                     <div class="d-flex justify-content-center gap-2">
-                        <button type="button" class="btn btn-light btn-sm px-3 border" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger btn-sm px-3" id="confirmDeleteBtn">Delete</button>
+                        <button type="button" class="btn btn-light btn-sm px-3 border rounded-3" data-bs-dismiss="modal">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm px-3 rounded-3 fw-semibold" id="confirmDeleteBtn">Delete</button>
                     </div>
                 </div>
             </div>
@@ -341,7 +528,7 @@
 
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Application Logic (Flat Path) -->
-    <script src="app.js"></script>
+    <!-- Application Logic -->
+    <script src="app.js?v=2.2"></script>
 </body>
 </html>

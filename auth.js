@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPasswordToggles();
     setupLoginForm();
     setupRegisterForm();
+    setupPasswordStrength();
 });
 
 async function checkAlreadyLoggedIn() {
@@ -34,6 +35,56 @@ function setupPasswordToggles() {
     bindToggle('togglePasswordBtn', 'loginPassword', 'togglePasswordIcon');
     bindToggle('toggleRegPasswordBtn', 'regPassword', 'toggleRegPasswordIcon');
     bindToggle('toggleConfirmPasswordBtn', 'regConfirmPassword', 'toggleConfirmPasswordIcon');
+}
+
+function setupPasswordStrength() {
+    const passInput = document.getElementById('regPassword');
+    const label = document.getElementById('passwordStrengthLabel');
+    const s1 = document.getElementById('strength1');
+    const s2 = document.getElementById('strength2');
+    const s3 = document.getElementById('strength3');
+
+    if (!passInput || !s1 || !s2 || !s3) return;
+
+    passInput.addEventListener('input', () => {
+        const val = passInput.value;
+        s1.className = 'strength-step';
+        s2.className = 'strength-step';
+        s3.className = 'strength-step';
+
+        if (!val) {
+            if (label) label.textContent = '';
+            return;
+        }
+
+        let score = 0;
+        if (val.length >= 6) score++;
+        if (/[0-9]/.test(val) && /[a-zA-Z]/.test(val)) score++;
+        if (/[^a-zA-Z0-9]/.test(val) && val.length >= 8) score++;
+
+        if (score === 1) {
+            s1.classList.add('active-weak');
+            if (label) {
+                label.textContent = 'Weak';
+                label.className = 'text-danger fw-bold';
+            }
+        } else if (score === 2) {
+            s1.classList.add('active-medium');
+            s2.classList.add('active-medium');
+            if (label) {
+                label.textContent = 'Medium';
+                label.className = 'text-warning fw-bold';
+            }
+        } else if (score >= 3) {
+            s1.classList.add('active-strong');
+            s2.classList.add('active-strong');
+            s3.classList.add('active-strong');
+            if (label) {
+                label.textContent = 'Strong';
+                label.className = 'text-success fw-bold';
+            }
+        }
+    });
 }
 
 function showAlert(message, type = 'danger') {

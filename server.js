@@ -341,3 +341,6 @@ app.listen(PORT, () => {
     console.log(`Flat Deployment Running on: http://localhost:${PORT}`);
     console.log(`=======================================================`);
 });
+
+module.exports = app;
+
